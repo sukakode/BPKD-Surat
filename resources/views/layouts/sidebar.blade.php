@@ -20,13 +20,7 @@
         <i class="fas fa-users nav-icon"></i>
         <p>Data Pengguna</p>
       </a>
-    </li> 
-    <li class="nav-item">
-      <a href="#" class="nav-link">
-        <i class="fas fa-edit nav-icon"></i>
-        <p>Data Jabatan</p>
-      </a>
-    </li> 
+    </li>  
   </ul>
 </li>
 {{-- <li class="nav-item">
