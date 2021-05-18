@@ -25,3 +25,4 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [$loc . MainController::class, 'index'])->name('main');
+Route::resource('jabatan', $loc . JabatanController::class);

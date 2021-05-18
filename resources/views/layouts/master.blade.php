@@ -25,11 +25,22 @@
 
     <div class="sidebar ">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
+        <div class="image mr-3">
           <img src="{{ asset('assets') }}/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ ucfirst(auth()->user()->name) }}</a>
+          <a href="#" class="d-block">{{ ucfirst(auth()->user()->nama) }}</a>
+
+        </div>
+        <div class="btn">
+          <a class="btn btn-block btn-outline-secondary btn-xs" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            Logout
+          </a>
+  
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+          </form>
+
         </div>
       </div> 
 

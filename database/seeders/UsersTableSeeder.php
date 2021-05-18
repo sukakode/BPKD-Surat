@@ -16,13 +16,19 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $data = [
-            [
-                'name' => 'Me Gilang R',
+            [ 
+                'nip' => '19991230202105001',
+                'nama' => 'Me Gilang R',
+                'jabatan_id' => 1,
+                'notelp' => '85722606696',
                 'email' => 'megilangr1@mail.com',
                 'password' => Hash::make('nanozero1'),
             ],
-            [
-                'name' => 'Admin',
+            [ 
+                'nip' => '19991230202105002',
+                'nama' => 'Admin',
+                'jabatan_id' => 1,
+                'notelp' => '85722606696',
                 'email' => 'admin@mail.com',
                 'password' => Hash::make('admin'),
             ],
