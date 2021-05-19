@@ -17,8 +17,14 @@
   <ul class="nav nav-treeview">
     <li class="nav-item">
       <a href="{{ route('jabatan.index') }}" class="nav-link">
-        <i class="fas fa-users nav-icon"></i>
+        <i class="fas fa-cog nav-icon"></i>
         <p>Data Jabatan</p>
+      </a>
+    </li>  
+    <li class="nav-item">
+      <a href="{{ route('pengguna.index') }}" class="nav-link">
+        <i class="fas fa-users nav-icon"></i>
+        <p>Data Pengguna</p>
       </a>
     </li>  
   </ul>

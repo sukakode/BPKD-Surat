@@ -56,7 +56,7 @@ class JabatanController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect(route('main'));
     }
 
     /**
@@ -105,7 +105,7 @@ class JabatanController extends Controller
             return redirect(route('jabatan.index'));
         } catch (\Throwable $th) {
             dd($th);
-            return redirect(route('jabatan.create'));
+            return redirect(route('jabatan.index'));
         }
     }
 }

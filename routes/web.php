@@ -26,3 +26,4 @@ Auth::routes();
 
 Route::get('/home', [$loc . MainController::class, 'index'])->name('main');
 Route::resource('jabatan', $loc . JabatanController::class);
+Route::resource('pengguna', $loc . Usercontroller::class);
