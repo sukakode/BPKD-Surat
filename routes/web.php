@@ -27,3 +27,5 @@ Auth::routes();
 Route::get('/home', [$loc . MainController::class, 'index'])->name('main');
 Route::resource('jabatan', $loc . JabatanController::class);
 Route::resource('pengguna', $loc . Usercontroller::class);
+Route::resource('surat-masuk', $loc . SuratMasukController::class);
+Route::put('/surat-masuk/file/getFile', [$loc . SuratMasukController::class, 'getFiles'])->name('surat-masuk.getFiles');

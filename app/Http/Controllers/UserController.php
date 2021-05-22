@@ -94,11 +94,11 @@ class UserController extends Controller
 
             if ($check) {
                 $request->merge([
-                    'password' => Hash::make($password)
+                    'password' => $pengguna->password
                 ]);
             } else {
                 $request->merge([
-                    'password' => $pengguna->password
+                    'password' => $password
                 ]);
             }
 

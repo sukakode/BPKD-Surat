@@ -1,0 +1,32 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Deny access to .htaccess
+    <Files .htaccess>
+        Order allow,deny
+        Deny from all
+    </Files>
+    
+    # Hide the contents of directories
+    IndexIgnore *
+
+    # Deny access to files with extensions .pdf
+    <FilesMatch "\.(pdf)$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+
+</IfModule>

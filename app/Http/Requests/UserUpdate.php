@@ -33,6 +33,18 @@ class UserUpdate extends FormRequest
         ];
     }
 
+    public function attributes()
+    {
+        return [
+            'nip' => 'NIP Pengguna',
+            'nama' => 'Nama Pengguna',
+            'jabatan_id' => 'Jabatan Pengguna',
+            'notelp' => 'Nomor Telpon Pengguna',
+            'email' => 'E-Mail Pengguna',
+            'password' => 'Password',
+        ];
+    }
+
     public function messages()
     {
         return [
@@ -46,17 +58,4 @@ class UserUpdate extends FormRequest
             'confirmed' => ':attribute konfirmasi salah !',
         ];
     }
-    
-    public function attributes()
-    {
-        return [
-            'nip' => 'NIP Pengguna',
-            'nama' => 'Nama Pengguna',
-            'jabatan_id' => 'Jabatan Pengguna',
-            'notelp' => 'Nomor Telpon Pengguna',
-            'email' => 'E-Mail Pengguna',
-            'password' => 'Password',
-        ];
-    }
-
 }

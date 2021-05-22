@@ -1,12 +1,12 @@
 <li class="nav-item">
-  <a href="#" class="nav-link active">
+  <a href="{{ route('main') }}" class="nav-link active">
     <i class="nav-icon fas fa-home"></i>
     <p>
       Halaman Utama
     </p>
   </a>
 </li>
-<li class="nav-item">
+{{-- <li class="nav-item">
   <a href="#" class="nav-link">
     <i class="nav-icon fas fa-edit"></i>
     <p>
@@ -28,6 +28,36 @@
       </a>
     </li>  
   </ul>
+</li> --}}
+<li class="nav-header">Master Data</li>
+<li class="nav-item">
+  <a href="{{ route('jabatan.index') }}" class="nav-link">
+    <i class="fas fa-cog nav-icon"></i>
+    <p>Data Jabatan</p>
+  </a>
+</li>  
+<li class="nav-item">
+  <a href="{{ route('pengguna.index') }}" class="nav-link">
+    <i class="fas fa-users nav-icon"></i>
+    <p>Data Pengguna</p>
+  </a>
+</li>  
+<li class="nav-header">Surat Masuk</li>
+<li class="nav-item">
+  <a href="{{ route('surat-masuk.create') }}" class="nav-link">
+    <i class="nav-icon fas fa-sign-in-alt"></i>
+    <p>
+      Buat Surat Masuk
+    </p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="{{ route('surat-masuk.index') }}" class="nav-link">
+    <i class="nav-icon fas fa-table"></i>
+    <p>
+      Data Surat Masuk
+    </p>
+  </a>
 </li>
 {{-- <li class="nav-item">
   <a href="#" class="nav-link">
