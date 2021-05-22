@@ -14,4 +14,9 @@ class SuratFile extends Model
     protected $fillable = [
         'surat_id', 'nama_file', 'lokasi_file',
     ];
+
+    public function surat()
+    {
+        return $this->belongsTo('App\Models\Surat', 'surat_id', 'id');
+    }
 }

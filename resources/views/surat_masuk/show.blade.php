@@ -110,7 +110,16 @@
                       </form>
                     </p>
                     <div class="btn-group">
-                      <a href="#" class="btn btn-success btn-sm">OK</a>
+                      <form action="{{ route('surat-masuk.getFiles') }}" method="post" target="_blank">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="action" value="{{ $hashDownload }}">
+                        <input type="hidden" name="dataPdf" value="{{ rand(10, 99) . ($item->id + 30 + 1999) * 12 . rand(100, 999) }}">
+
+                        <button type="submit" class="btn btn-outline btn-success btn-block">
+                          <span class="fa fa-download"></span> &ensp; Unduh
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </div>

@@ -158,7 +158,11 @@ class SuratMasukController extends Controller
                 } catch (\Throwable $th) {
                     abort(404);
                 }
-                return response()->download(storage_path($file->lokasi_file));
+                
+                $headers = array(
+                    'Content-Type: application/pdf',
+                );
+                return response()->download(storage_path($file->lokasi_file, $file->surat->namafile, $headers));
             } else {
                 return view('close');
             }
