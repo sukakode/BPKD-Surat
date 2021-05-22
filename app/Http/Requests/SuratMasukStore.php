@@ -51,6 +51,7 @@ class SuratMasukStore extends FormRequest
             'confirmed' => ':attribute konfirmasi salah !',
             'mimes' => ':attribute harus berupa PDF !',
             'file' => ':attribute gagal di-upload !',
+            'date' => ':attribute format tanggal salah !',
         ];
     }
     

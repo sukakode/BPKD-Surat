@@ -97,27 +97,25 @@
                       Dokumen ke-{{ $loop->iteration }}
                       <hr class="mb-0">
                     </h5>
-                    <p class="card-text">
-                      <form action="{{ route('surat-masuk.getFiles') }}" method="post" target="_blank">
-                        @csrf
-                        @method('PUT')
-                        <input type="hidden" name="action" value="{{ $hashRead }}">
-                        <input type="hidden" name="dataPdf" value="{{ rand(10, 99) . ($item->id + 30 + 1999) * 12 . rand(100, 999) }}">
-
-                        <button type="submit" class="btn btn-outline btn-info btn-block">
-                          <span class="fa fa-file"></span> &ensp; {{ $item->nama_file }}
-                        </button>
-                      </form>
-                    </p>
-                    <div class="btn-group">
+                    <div class="btn-group text-center">
                       <form action="{{ route('surat-masuk.getFiles') }}" method="post" target="_blank">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="action" value="{{ $hashDownload }}">
                         <input type="hidden" name="dataPdf" value="{{ rand(10, 99) . ($item->id + 30 + 1999) * 12 . rand(100, 999) }}">
 
-                        <button type="submit" class="btn btn-outline btn-success btn-block">
+                        <button type="submit" class="btn btn-outline btn-success btn-block mr-2 ml-1 my-2">
                           <span class="fa fa-download"></span> &ensp; Unduh
+                        </button>
+                      </form>
+                      <form action="{{ route('surat-masuk.getFiles') }}" method="post" target="_blank">
+                        @csrf
+                        @method('PUT')
+                        <input type="hidden" name="action" value="{{ $hashRead }}">
+                        <input type="hidden" name="dataPdf" value="{{ rand(10, 99) . ($item->id + 30 + 1999) * 12 . rand(100, 999) }}">
+
+                        <button type="submit" class="btn btn-outline btn-info btn-block mr-1 ml-2 my-2">
+                          <span class="fa fa-file"></span> &ensp; {{ $item->nama_file }}
                         </button>
                       </form>
                     </div>
