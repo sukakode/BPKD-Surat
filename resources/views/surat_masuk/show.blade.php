@@ -84,7 +84,16 @@
           <hr style="border-top: 3px solid #00000087 !important;">
         </div>
         <div class="col-12">
-          <h5>File Surat : </h5>
+          <div class="row px-4">
+            <div class="col-md-6">
+              <h5 class="m-0">File Surat : </h5>
+            </div>
+            <div class="col-md-6 text-right">
+              <a href="{{ route('surat-masuk.files', $suratMasuk->id) }}" class="btn btn-warning btn-sm">
+                <span class="fa fa-edit"></span> &ensp; Tambah / Hapus Data File
+              </a>
+            </div>
+          </div>
           <hr style="border-top: 3px solid #00000087 !important;">
         </div>
         <div class="col-12">
@@ -93,10 +102,20 @@
               <div class="col-sm-6">
                 <div class="card">
                   <div class="card-body">
-                    <h5 class="card-title w-100">
-                      Dokumen ke-{{ $loop->iteration }}
-                      <hr class="mb-0">
-                    </h5>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h5 class="card-title w-100">
+                          Dokumen Surat ke -{{ $loop->iteration }}
+                          <br> 
+                          <span class="badge badge-success">
+                            {{ $item->nama_file }}
+                          </span>
+                        </h5>
+                      </div> 
+                      <div class="col-12">
+                        <hr class="mb-0">
+                      </div>
+                    </div>
                     <div class="btn-group text-center">
                       <form action="{{ route('surat-masuk.getFiles') }}" method="post" target="_blank">
                         @csrf
@@ -115,13 +134,13 @@
                         <input type="hidden" name="dataPdf" value="{{ rand(10, 99) . ($item->id + 30 + 1999) * 12 . rand(100, 999) }}">
 
                         <button type="submit" class="btn btn-outline btn-info btn-block mr-1 ml-2 my-2">
-                          <span class="fa fa-file"></span> &ensp; {{ $item->nama_file }}
+                          <span class="fa fa-eye"></span> &ensp; Lihat File
                         </button>
                       </form>
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> 
             @empty
               <div class="col-sm-12">
                 <div class="card">

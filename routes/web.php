@@ -29,3 +29,6 @@ Route::resource('jabatan', $loc . JabatanController::class);
 Route::resource('pengguna', $loc . Usercontroller::class);
 Route::resource('surat-masuk', $loc . SuratMasukController::class);
 Route::put('/surat-masuk/file/getFile', [$loc . SuratMasukController::class, 'getFiles'])->name('surat-masuk.getFiles');
+Route::get('/surat-masuk/{surat_masuk}/file', [$loc . SuratMasukController::class, 'files'])->name('surat-masuk.files');
+Route::post('/surat-masuk/{surat_masuk}/file', [$loc . SuratMasukController::class, 'addFile'])->name('surat-masuk.addFile');
+Route::delete('/surat-masuk/{surat_masuk}/file/{file}', [$loc . SuratMasukController::class, 'deleteSurat'])->name('surat-masuk.deleteSurat');

@@ -40,7 +40,7 @@
                 <td>{{ $item->files->count() }} File</td>
                 <td class="text-center">
                   <div class="btn-group">
-                    <form action="{{ route('jabatan.destroy', $item->id) }}" method="post">
+                    <form action="{{ route('surat-masuk.destroy', $item->id) }}" method="post">
                       @csrf
                       @method('DELETE')
 
@@ -48,9 +48,10 @@
                         <span class="fa fa-eye"></span>
                       </a>
 
-                      <a href="{{ route('jabatan.edit', $item->id) }}" class="btn btn-outline-info btn-sm">
+                      <a href="{{ route('surat-masuk.edit', $item->id) }}" class="btn btn-outline-info btn-sm">
                         <span class="fa fa-edit"></span>
                       </a>
+                      
                       <button type="submit" class="btn btn-outline-danger btn-sm">
                         <span class="fa fa-trash"></span>
                       </button>
@@ -60,7 +61,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="4">Belum Ada Data Jabatan</td>
+                <td colspan="4">Belum Ada Data Surat Masuk</td>
               </tr>
             @endforelse
           </tbody>

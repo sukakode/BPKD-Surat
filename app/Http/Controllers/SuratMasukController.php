@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SuratMasukFileAdd;
 use App\Http\Requests\SuratMasukStore;
+use App\Http\Requests\SuratMasukUpdate;
 use App\Models\Surat;
 use App\Models\SuratFile;
 use Carbon\Carbon;
@@ -100,9 +102,11 @@ class SuratMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Surat $suratMasuk)
     {
-        //
+        $hashRead = Hash::make('readPdf');
+        $hashDownload = Hash::make('downloadPdf');
+        return view('surat_masuk.edit', compact('suratMasuk', 'hashRead', 'hashDownload'));
     }
 
     /**
@@ -112,9 +116,17 @@ class SuratMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SuratMasukUpdate $request, Surat $suratMasuk)
     {
-        //
+        try {
+            $suratMasuk->update($request->validated());
+
+            session()->flash('info', 'Data Surat di-Ubah !');
+            return redirect(route('surat-masuk.index'));
+        } catch (\Throwable $th) {
+            session()->flash('error', 'Terjadi Kesalahan !');
+            return redirect(route('surat-masuk.edit', $suratMasuk->id));
+        }
     }
 
     /**
@@ -168,6 +180,60 @@ class SuratMasukController extends Controller
             }
         } else {
             abort(404);
+        }
+    }
+
+    public function files(Surat $suratMasuk)
+    {
+        $hashRead = Hash::make('readPdf');
+        $hashDownload = Hash::make('downloadPdf');
+        return view('surat_masuk.file', compact('suratMasuk', 'hashRead', 'hashDownload'));
+    }
+
+    public function addFile(SuratMasukFileAdd $request, Surat $suratMasuk)
+    {
+        try {
+            if ($request->file('surat_file')) {
+                $dataFile = $request->file('surat_file');
+                foreach ($dataFile as $key => $value) {
+                    $namaFile = Carbon::now()->format('Ymd')."_".time()."_".$suratMasuk->id.rand(10,99).".".$value->getClientOriginalExtension();
+                    $path = "uploads\pdf_file\\" . $namaFile;
+                    $moveFile = $value->storeAs('pdf_file', $namaFile, 'uploads');
+    
+                    $suratFile = SuratFile::firstOrCreate([
+                        'surat_id' => $suratMasuk->id,
+                        'nama_file' => $namaFile,
+                        'lokasi_file' => $path,
+                    ]);
+                }
+            } else {
+                return redirect(route('surat-masuk.files', $suratMasuk->id))->withInput($request->all());
+            }
+
+            session()->flash('info', 'Data Surat di-Tambhakan !');
+            return redirect(route('surat-masuk.files', $suratMasuk->id));
+        } catch (\Throwable $th) {
+            return redirect(route('surat-masuk.files', $suratMasuk->id))->withInput($request->all());
+        }
+    }
+
+    public function deleteSurat(Surat $suratMasuk, SuratFile $file)
+    {
+        $count = $suratMasuk->files()->count();
+        if ($count > 1) {
+            try {
+                $file->delete();
+    
+                // Storage::delete();
+                session()->flash('warning', 'File Surat di-Hapus !');
+                return redirect(route('surat-masuk.files', $file->surat->id));
+            } catch (\Throwable $th) {
+                session()->flash('error', 'Terjadi Kesalahan !');
+                return redirect(route('surat-masuk.files', $file->surat->id));
+            }
+        } else {
+            session()->flash('error', 'Surat Harus Memiliki File !');
+            return redirect(route('surat-masuk.files', $file->surat->id));
         }
     }
 }
