@@ -135,9 +135,20 @@ class SuratMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Surat $suratMasuk)
     {
-        //
+        try {
+            $suratMasuk->delete();
+            if ($suratMasuk->files()->count() > 0) {
+                $suratMasuk->files()->delete();
+            }
+
+            session()->flash('warning', 'Data Surat di-Hapus !');
+            return redirect(route('surat-masuk.index'));
+        } catch (\Throwable $th) {
+            session()->flash('error', 'Terjadi Kesalahan !');
+            return redirect(route('surat-masuk.index'));
+        }
     }
 
     public function getFiles(Request $request)
