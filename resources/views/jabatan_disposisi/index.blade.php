@@ -8,7 +8,7 @@
         Data Jabatan
       </h4>
       <div class="card-tools">
-        <a href="{{ route('jabatan.create') }}" class="btn btn-success btn-xs">
+        <a href="{{ route('jabatan-disposisi.create', $jabatan->id) }}" class="btn btn-success btn-xs">
           <span class="fa fa-plus"></span> &ensp; Tambah Data Jabatan
         </a>
       </div>
@@ -36,16 +36,13 @@
                       @csrf
                       @method('DELETE')
 
-                      <a href="{{ route('jabatan.edit', $item->id) }}" class="btn btn-outline-info m-1 btn-sm">
+                      <a href="{{ route('jabatan.edit', $item->id) }}" class="btn btn-outline-info btn-sm">
                         Edit Data
                       </a>
-                      <button type="submit" class="btn btn-outline-danger m-1 btn-sm">
+                      <button type="submit" class="btn btn-outline-danger btn-sm">
                         Hapus Data
                       </button>
 
-                      <a href="{{ route('jabatan-disposisi.index', $item->id) }}" class="btn btn-outline-success m-1 btn-sm">
-                        Atur Disposisi
-                      </a>
                     </form>
                   </div>
                 </td>

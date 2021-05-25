@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\JabatanDisposisi;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,8 +26,12 @@ Auth::routes();
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/home', [$loc . MainController::class, 'index'])->name('main');
+
 Route::resource('jabatan', $loc . JabatanController::class);
+Route::resource('jabatan/{jabatan}/jabatan-disposisi', $loc . JabatanDisposisiController::class);
+
 Route::resource('pengguna', $loc . Usercontroller::class);
+
 Route::resource('surat-masuk', $loc . SuratMasukController::class);
 Route::put('/surat-masuk/file/getFile', [$loc . SuratMasukController::class, 'getFiles'])->name('surat-masuk.getFiles');
 Route::get('/surat-masuk/{surat_masuk}/file', [$loc . SuratMasukController::class, 'files'])->name('surat-masuk.files');

@@ -1,5 +1,37 @@
 @extends('layouts.master')
 
+@section('css')
+<style>
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  .select2-container .select2-selection--single {
+    height: 38px !important;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 34px !important;
+  }
+
+  .borad-r {
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+  }
+</style>
+
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@endsection
+
 @section('content')
 <div class="col-12">
   <div class="card card-outline card-success">
@@ -114,7 +146,7 @@
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
-                  <label for="surat_file">File input</label>
+                  <label for="surat_file">File Scan : </label>
                   <div class="input-group">
                     <div class="custom-file">
                       <input type="file" class="custom-file-input {{ $errors->has('surat_file.*') }}" name="surat_file[]" id="surat_file" multiple required>
@@ -127,6 +159,27 @@
                   <span class="text-danger"> 
                     {{ $errors->first('surat_file.*') }}
                   </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mt-2">
+            <h5>Disposisi Surat Masuk :</h5>
+            <hr style="border-top: 3px solid #00000087 !important;">
+          </div>
+          <div class="col-12 pl-4 pr-4">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <label>Disposisi Surat</label>
+                  <div class="select2-success">
+                    <select name="disposisi[]" class="select2" multiple="multiple" data-placeholder="Pilih Tujuan Disposisi Surat..." data-dropdown-css-class="select2-success" style="width: 100%;">
+                      <option value=""></option>
+                      @foreach (auth()->user()->jabatan->disposisi as $item)
+                        <option value="{{ $item->jabatan_dituju }}">{{ $item->jabatan_tuju->nama }}</option>
+                      @endforeach
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="col-12">
@@ -156,8 +209,12 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('assets') }}/plugins/select2/js/select2.full.min.js"></script>
+
 <script>
   $(document).ready(function() {
+    $('.select2').select2(); 
+
     $('#surat_file').on('change', function() {
       var data_file = (this).files;
       var nama_file = "";

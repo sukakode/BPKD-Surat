@@ -45,7 +45,6 @@ class SuratMasukController extends Controller
      */
     public function store(SuratMasukStore $request)
     {
-        // dd($request->validated());
         try {
             DB::beginTransaction();
 
