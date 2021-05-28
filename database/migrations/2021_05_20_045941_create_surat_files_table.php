@@ -31,6 +31,6 @@ class CreateSuratFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surat_files');
+        Schema::dropIfExists('surat_file');
     }
 }

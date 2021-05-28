@@ -20,8 +20,8 @@ class CreateSuratsTable extends Migration
             $table->string('nomor_surat', 30);
             $table->string('sifat', 20)->nullable();
             $table->string('lampiran', 50)->nullable();
-            $table->string('perihal', 40);
-            $table->string('surat_ditujukan', 40);
+            $table->string('perihal', 100);
+            $table->string('surat_ditujukan', 100);
             $table->string('isi_singkat', 100)->nullable();
             $table->date('tgl_terima');
             $table->unsignedBigInteger('user_id');
@@ -38,6 +38,6 @@ class CreateSuratsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('surats');
+        Schema::dropIfExists('surat');
     }
 }

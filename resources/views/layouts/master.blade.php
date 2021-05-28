@@ -8,6 +8,11 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="{{ asset('assets') }}/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="{{ asset('assets') }}/dist/css/adminlte.min.css">
+  
+  <!-- Toastr -->
+  <link rel="stylesheet" href="{{ asset('assets') }}/plugins/toastr/toastr.min.css">
+
+  @livewireStyles
 
   @yield('css')
   @stack('css')
@@ -97,7 +102,54 @@
 <script src="{{ asset('assets') }}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('assets') }}/dist/js/adminlte.min.js"></script>
 
+<script src="{{ asset('assets') }}/plugins/toastr/toastr.min.js"></script>
+
+@livewireScripts
+
+@if (session()->has('success'))
+  <script>
+    toastr.success("{{ session('success') }}", "Berhasil");
+  </script>
+@endif
+
+@if (session()->has('info'))
+  <script>
+    toastr.info("{{ session('info') }}", "Pemberitahuan");
+  </script>
+@endif
+
+@if (session()->has('warning'))
+  <script>
+    toastr.warning("{{ session('warning') }}", "Peringatan");
+  </script>
+@endif
+
+@if (session()->has('error'))
+  <script>
+    toastr.error("{{ session('error') }}", "Kesalahan");
+  </script>
+@endif
+
+<script>
+  Livewire.on('success', data => {
+    toastr.success(data, "Berhasil");
+  });
+
+  Livewire.on('info', data => {
+    toastr.info(data, "Pemberitahuan");
+  });
+
+  Livewire.on('warning', data => {
+    toastr.warning(data, "Peringatan !");
+  });
+
+  Livewire.on('error', data => {
+    toastr.error(data, "Kesalahan !!");
+  });
+</script>
+
 @yield('script')
 @stack('script')
+
 </body>
 </html>

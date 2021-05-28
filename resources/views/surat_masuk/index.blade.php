@@ -25,7 +25,7 @@
               <th class="text-center">Tanggal Surat</th>
               <th class="text-center">Tanggal Terima</th>
               <th>File PDF</th>
-              <th width="15%" class="text-center">Aksi</th>
+              <th width="18%" class="text-center">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -38,30 +38,38 @@
                 <td class="text-center">{{ date('d/m/Y', strtotime($item->tgl_terima)) }}</td>
                 <td class="text-center">{{ date('d/m/Y', strtotime($item->tgl_surat)) }}</td>
                 <td>{{ $item->files->count() }} File</td>
-                <td class="text-center">
+                <td class="text-center"> 
                   <div class="btn-group">
                     <form action="{{ route('surat-masuk.destroy', $item->id) }}" method="post">
                       @csrf
                       @method('DELETE')
 
-                      <a href="{{ route('surat-masuk.show', $item->id) }}" class="btn btn-outline-primary btn-sm">
-                        <span class="fa fa-eye"></span>
+                      <a href="{{ route('surat-masuk.show', $item->id) }}" class="btn btn-outline-primary mt-1 btn-sm">
+                        {{-- <span class="fa fa-eye"></span>  --}}
+                        Lihat Surat
                       </a>
 
-                      <a href="{{ route('surat-masuk.edit', $item->id) }}" class="btn btn-outline-info btn-sm">
-                        <span class="fa fa-edit"></span>
+                      <a href="{{ route('surat-masuk.edit', $item->id) }}" class="btn btn-outline-info mt-1 btn-sm">
+                        {{-- <span class="fa fa-edit"></span> --}}
+                        Edit
                       </a>
                       
-                      <button type="submit" class="btn btn-outline-danger btn-sm">
-                        <span class="fa fa-trash"></span>
+                      <button type="submit" class="btn btn-outline-danger mt-1 btn-sm">
+                        {{-- <span class="fa fa-trash"></span> --}}
+                        Hapus
                       </button>
+
+                      <a href="{{ route('surat-masuk.disposisi', $item->id) }}" class="btn btn-success mt-1 btn-sm">
+                        {{-- <span class="fa fa-sign-in-alt"></span> --}}
+                        Disposisi
+                      </a>
                     </form>
                   </div>
                 </td>
               </tr>
             @empty
               <tr>
-                <td colspan="4">Belum Ada Data Surat Masuk</td>
+                <td colspan="8">Belum Ada Data Surat Masuk</td>
               </tr>
             @endforelse
           </tbody>
@@ -69,5 +77,20 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
+@endsection
+
+@section('script')
+<script>
+  $(document).ready(function () {
+    // $('.disposisi-surat').on('click', function() {
+    //   var id = $(this).data('id');
+    //   Livewire.emit('get-disposisi', id);
+    // });
+
+    // Livewire.on('openModal', () => {
+    //   $('#modal-disposisi').modal('show');
+    // });
+  });
+</script>
 @endsection

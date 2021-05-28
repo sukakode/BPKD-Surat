@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @section('css')
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
 <style>
   /* Chrome, Safari, Edge, Opera */
   input::-webkit-outer-spin-button,
@@ -27,9 +31,6 @@
   }
 </style>
 
-<!-- Select2 -->
-<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="{{ asset('assets') }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @endsection
 
 @section('content')
@@ -67,7 +68,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="tgl_surat" class="font-weight-normal">Tanggal Surat : <span class="text-danger">*</span></label>
-                  <input type="date" name="tgl_surat" id="tgl_surat" class="form-control {{ $errors->has('tgl_surat') ? 'is-invalid':'' }}" value="{{ empty(old('tgl_terima')) ? date('Y-m-d'):old('tgl_terima') }}" required autocomplete="off">
+                  <input type="date" name="tgl_surat" id="tgl_surat" class="form-control {{ $errors->has('tgl_surat') ? 'is-invalid':'' }}" value="{{ empty(old('tgl_terima')) ? date('Y-m-d'):old('tgl_terima') }}" placeholder="Masukan Tanggal Surat..." required autocomplete="off">
                   <span class="invalid-feedback">
                     {{ $errors->first('tgl_surat') }}
                   </span>
@@ -76,7 +77,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="tgl_terima" class="font-weight-normal">Tanggal Di-Terima : <span class="text-danger">*</span></label>
-                  <input type="date" name="tgl_terima" id="tgl_terima" class="form-control {{ $errors->has('tgl_terima') ? 'is-invalid':'' }}" value="{{ empty(old('tgl_terima')) ? date('Y-m-d'):old('tgl_terima') }}" required autocomplete="off">
+                  <input type="date" name="tgl_terima" id="tgl_terima" class="form-control {{ $errors->has('tgl_terima') ? 'is-invalid':'' }}" value="{{ empty(old('tgl_terima')) ? date('Y-m-d'):old('tgl_terima') }}" placeholder="Masukan Tanggal Terima..." required autocomplete="off">
                   <span class="invalid-feedback">
                     {{ $errors->first('tgl_terima') }}
                   </span>
@@ -85,7 +86,7 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="nomor_surat" class="font-weight-normal">Nomor Surat : <span class="text-danger">*</span></label>
-                  <input type="text" name="nomor_surat" id="nomor_surat" class="form-control {{ $errors->has('nomor_surat') ? 'is-invalid':'' }}" placeholder="Masukan Pengirim Surat..." max="30" maxlength="30" value="{{ old('nomor_surat') }}" required autocomplete="off">
+                  <input type="text" name="nomor_surat" id="nomor_surat" class="form-control {{ $errors->has('nomor_surat') ? 'is-invalid':'' }}" placeholder="Masukan Nomor Surat..." max="30" maxlength="30" value="{{ old('nomor_surat') }}" required autocomplete="off">
                   <span class="invalid-feedback">
                     {{ $errors->first('nomor_surat') }}
                   </span>
@@ -112,7 +113,7 @@
               <div class="col-md-7">
                 <div class="form-group">
                   <label for="perihal" class="font-weight-normal">Perihal : </label>
-                  <input type="text" name="perihal" id="perihal" class="form-control {{ $errors->has('perihal') ? 'is-invalid':'' }}" placeholder="Masukan Perihal..." max="40" maxlength="40" value="{{ old('perihal') }}" required autocomplete="off">
+                  <input type="text" name="perihal" id="perihal" class="form-control {{ $errors->has('perihal') ? 'is-invalid':'' }}" placeholder="Masukan Perihal..." max="100" maxlength="100" value="{{ old('perihal') }}" required autocomplete="off">
                   <span class="invalid-feedback">
                     {{ $errors->first('perihal') }}
                   </span>
@@ -121,7 +122,7 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="surat_ditujukan" class="font-weight-normal">Di Tujukan Kepada : </label>
-                  <input type="text" name="surat_ditujukan" id="surat_ditujukan" class="form-control {{ $errors->has('surat_ditujukan') ? 'is-invalid':'' }}" placeholder="Masukan Di Tujukan Kepada..." max="40" maxlength="40" value="{{ old('surat_ditujukan') }}" required autocomplete="off">
+                  <input type="text" name="surat_ditujukan" id="surat_ditujukan" class="form-control {{ $errors->has('surat_ditujukan') ? 'is-invalid':'' }}" placeholder="Masukan Di Tujukan Kepada..." max="100" maxlength="100" value="{{ old('surat_ditujukan') }}" required autocomplete="off">
                   <span class="invalid-feedback">
                     {{ $errors->first('surat_ditujukan') }}
                   </span>
@@ -149,7 +150,7 @@
                   <label for="surat_file">File Scan : </label>
                   <div class="input-group">
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input {{ $errors->has('surat_file.*') }}" name="surat_file[]" id="surat_file" multiple required>
+                      <input type="file" class="custom-file-input {{ $errors->has('surat_file.*') }}" name="surat_file[]" id="surat_file" value="{{ old('surat_file') }}" multiple required>
                       <label class="custom-file-label" id="file_label" for="surat_file">Silahkan Pilih File</label>
                     </div>  
                   </div>
@@ -163,25 +164,12 @@
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2">
-            <h5>Disposisi Surat Masuk :</h5>
-            <hr style="border-top: 3px solid #00000087 !important;">
+          <div class="col-12 m-0 p-0">
+            @livewire('disposisi-surat')
           </div>
+          
           <div class="col-12 pl-4 pr-4">
             <div class="row">
-              <div class="col-12">
-                <div class="form-group">
-                  <label>Disposisi Surat</label>
-                  <div class="select2-success">
-                    <select name="disposisi[]" class="select2" multiple="multiple" data-placeholder="Pilih Tujuan Disposisi Surat..." data-dropdown-css-class="select2-success" style="width: 100%;">
-                      <option value=""></option>
-                      @foreach (auth()->user()->jabatan->disposisi as $item)
-                        <option value="{{ $item->jabatan_dituju }}">{{ $item->jabatan_tuju->nama }}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                </div>
-              </div>
               <div class="col-12">
                 <hr class="mt-1">
               </div>
@@ -213,8 +201,6 @@
 
 <script>
   $(document).ready(function() {
-    $('.select2').select2(); 
-
     $('#surat_file').on('change', function() {
       var data_file = (this).files;
       var nama_file = "";

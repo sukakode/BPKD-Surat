@@ -37,7 +37,7 @@
   <div class="card card-outline card-success">
     <div class="card-header">
       <h4 class="card-title">
-        Tambah Data Jabatan Disposisi
+        Tambah Data Jabatan Disposisi - {{ $jabatan->nama }}
       </h4>
       <div class="card-tools">
         <a href="{{ route('jabatan.index') }}" class="btn btn-xs btn-danger">
@@ -116,7 +116,7 @@
                   </tr>
                 @empty
                   <tr>
-                    <td colspan="3">Tidak memiliki hak disposisi</td>
+                    <td colspan="4">Tidak memiliki hak disposisi</td>
                   </tr>
                 @endforelse
               </tbody>

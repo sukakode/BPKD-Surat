@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SuratMasukFileAdd;
 use App\Http\Requests\SuratMasukStore;
 use App\Http\Requests\SuratMasukUpdate;
+use App\Models\Disposisi;
 use App\Models\Surat;
 use App\Models\SuratFile;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -52,7 +54,7 @@ class SuratMasukController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            $surat = Surat::firstOrCreate($request->except(['_token', 'surat_file']));
+            $surat = Surat::firstOrCreate($request->except(['_token', 'surat_file', 'disposisi_user_id', 'disposisi_catatan']));
 
             if ($request->file('surat_file')) {
                 $dataFile = $request->file('surat_file');
@@ -72,13 +74,27 @@ class SuratMasukController extends Controller
                 return redirect(route('surat-masuk.create'))->withInput($request->all());
             }
 
+            foreach ($request->disposisi_user_id as $key => $value) {
+                $disposisi = Disposisi::firstOrCreate([
+                    'surat_id' => $surat->id,
+                    'penginput_id' => $request->user_id,
+                    'diteruskan' => $value,
+                    'catatan' =>  $request->disposisi_catatan[$key],
+                    'status_penginput' => 1,
+                    'status_penerima' => 0,
+                    'disposisi_sebelumnya' => null,
+                    'disposisi_selanjutnya' => null,
+                ]); 
+            }
+
             DB::commit();
 
             session()->flash('success', 'Data Surat di-Tambahkan !');
             return redirect(route('surat-masuk.index'));
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th);
+            session()->flash('error', 'Terjadi Kesalahan !');
+            return redirect(route('surat-masuk.create'))->withInput($request->all());
         }
     }
 
@@ -136,17 +152,24 @@ class SuratMasukController extends Controller
      */
     public function destroy(Surat $suratMasuk)
     {
-        try {
-            $suratMasuk->delete();
-            if ($suratMasuk->files()->count() > 0) {
-                $suratMasuk->files()->delete();
+        // dd($suratMasuk->disposisi->count());
+        $count = $suratMasuk->disposisi->count();
+        if ($count > 0) {
+            session()->flash('warning', 'Data Surat Tidak Bisa di-Hapus !');
+            return redirect(route('surat-masuk.index'));
+        } else {
+            try {
+                $suratMasuk->delete();
+                if ($suratMasuk->files()->count() > 0) {
+                    $suratMasuk->files()->delete();
+                }
+    
+                session()->flash('warning', 'Data Surat di-Hapus !');
+                return redirect(route('surat-masuk.index'));
+            } catch (\Throwable $th) {
+                session()->flash('error', 'Terjadi Kesalahan !');
+                return redirect(route('surat-masuk.index'));
             }
-
-            session()->flash('warning', 'Data Surat di-Hapus !');
-            return redirect(route('surat-masuk.index'));
-        } catch (\Throwable $th) {
-            session()->flash('error', 'Terjadi Kesalahan !');
-            return redirect(route('surat-masuk.index'));
         }
     }
 
@@ -234,7 +257,6 @@ class SuratMasukController extends Controller
             try {
                 $file->delete();
     
-                // Storage::delete();
                 session()->flash('warning', 'File Surat di-Hapus !');
                 return redirect(route('surat-masuk.files', $file->surat->id));
             } catch (\Throwable $th) {
@@ -244,6 +266,70 @@ class SuratMasukController extends Controller
         } else {
             session()->flash('error', 'Surat Harus Memiliki File !');
             return redirect(route('surat-masuk.files', $file->surat->id));
+        }
+    }
+
+    public function disposisi(Surat $suratMasuk)
+    {
+        $disposisi = Disposisi::where('surat_id', $suratMasuk->id)->where('penginput_id', Auth::user()->id)->first();
+        $hashRead = Hash::make('readPdf');
+        $hashDownload = Hash::make('downloadPdf');
+        return view('surat_masuk.disposisi', compact('disposisi', 'suratMasuk', 'hashRead', 'hashDownload'));
+    }
+
+    public function disposisiCreate(Request $request, Surat $suratMasuk)
+    {
+        $this->validate($request, [
+            'disposisi_user_id' => 'required',
+            'disposisi_user_id.*' => 'numeric|exists:users,id',
+            'disposisi_catatan' => 'nullable',
+            'disposisi_catatan.*' => 'nullable|string|max:100',
+        ], [
+            'required' => ':attribute tidak boleh kosong !',
+            'string' => 'Format isian harus berupa String !',
+            'max' => ':attribute tidak boleh lebih dari :max karakter !',
+            'exists' => ':attribute data tidak sesuai !',
+        ], [
+            'disposisi_user_id' => 'Tujuan Disposisi',
+            'disposisi_user_id.*' => 'Tujuan Disposisi',
+            'disposisi_catatan' => 'Catatan Disposisi',
+            'disposisi_catatan.*' => 'Catatan Disposisi',
+        ]);
+        
+        try {
+            DB::beginTransaction();
+
+            foreach ($request->disposisi_user_id as $key => $value) {
+                $check = Disposisi::where('surat_id', $suratMasuk->id)
+                    ->where('penginput_id', Auth::user()->id)
+                    ->where('diteruskan', $value)
+                    ->where('deleted_at', null)
+                    ->first();
+                if ($check == null) {
+                    $disposisiBaru = Disposisi::firstOrCreate([
+                        'surat_id' => $suratMasuk->id,
+                        'penginput_id' => Auth::user()->id,
+                        'diteruskan' => $value,
+                        'catatan' =>  $request->disposisi_catatan[$key],
+                        'status_penginput' => 1,
+                        'status_penerima' => 0,
+                        'disposisi_sebelumnya' => null,
+                        'disposisi_selanjutnya' => null,
+                    ]); 
+                } else {
+                    session()->flash('warning', 'Disposisi Untuk Salah Satu Pengguna Sudah Ada !');
+                }
+            }
+
+            DB::commit();
+
+            session()->flash('success', 'Disposisi di-Buat !');
+            return redirect(route('surat-masuk.disposisi', $suratMasuk->id));
+
+        } catch (\Throwable $th) {
+            DB::rollback();
+            session()->flash('error', 'Terjadi Kesalahan !');
+            return redirect(route('surat-masuk.disposisi', $suratMasuk->id));
         }
     }
 }

@@ -31,6 +31,6 @@ class CreateJabatanDisposisisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jabatan_disposisis');
+        Schema::dropIfExists('jabatan_disposisi');
     }
 }

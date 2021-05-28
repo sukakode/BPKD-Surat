@@ -19,4 +19,9 @@ class Surat extends Model
     {
         return $this->hasMany('App\Models\SuratFile', 'surat_id', 'id');
     }
+
+    public function disposisi()
+    {
+        return $this->hasMany('App\Models\Disposisi', 'surat_id', 'id');
+    }
 }

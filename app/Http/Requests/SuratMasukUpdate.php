@@ -30,8 +30,8 @@ class SuratMasukUpdate extends FormRequest
             'nomor_surat' => 'required|string|max:30',
             'sifat' => 'nullable|string|max:20',
             'lampiran' => 'nullable|string|max:50',
-            'perihal' => 'required|string|max:40',
-            'surat_ditujukan' => 'required|string|max:40',
+            'perihal' => 'required|string|max:100',
+            'surat_ditujukan' => 'required|string|max:100',
             'isi_surat' => 'nullable|string|max:100',
         ];
     }

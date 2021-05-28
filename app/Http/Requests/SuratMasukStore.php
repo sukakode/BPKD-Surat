@@ -30,11 +30,16 @@ class SuratMasukStore extends FormRequest
             'nomor_surat' => 'required|string|max:30',
             'sifat' => 'nullable|string|max:20',
             'lampiran' => 'nullable|string|max:50',
-            'perihal' => 'required|string|max:40',
-            'surat_ditujukan' => 'required|string|max:40',
+            'perihal' => 'required|string|max:100',
+            'surat_ditujukan' => 'required|string|max:100',
             'isi_surat' => 'nullable|string|max:100',
             'surat_file' => 'required',
             'surat_file.*' => 'file|mimes:pdf|max:10240',
+
+            'disposisi_user_id' => 'required',
+            'disposisi_user_id.*' => 'numeric|exists:users,id',
+            'disposisi_catatan' => 'nullable',
+            'disposisi_catatan.*' => 'nullable|string|max:100',
         ];
     }
 
@@ -69,6 +74,11 @@ class SuratMasukStore extends FormRequest
             'isi_surat' => 'Isi Singkat Surat',
             'surat_file' => 'File Surat',
             'surat_file.*' => 'File Surat',
+            
+            'disposisi_user_id' => 'Tujuan Disposisi',
+            'disposisi_user_id.*' => 'Tujuan Disposisi',
+            'disposisi_catatan' => 'Catatan Disposisi',
+            'disposisi_catatan.*' => 'Catatan Disposisi',
         ];
     }
 }
