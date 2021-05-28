@@ -60,7 +60,7 @@ class SuratMasukController extends Controller
                 $dataFile = $request->file('surat_file');
                 foreach ($dataFile as $key => $value) {
                     $namaFile = Carbon::now()->format('Ymd')."_".$key."_".$surat->id."_surat_masuk".".".$value->getClientOriginalExtension();
-                    $path = "uploads\pdf_file\\" . $namaFile;
+                    $path = "uploads/pdf_file/" . $namaFile;
                     $moveFile = $value->storeAs('pdf_file', $namaFile, 'uploads');
 
                     $suratFile = SuratFile::firstOrCreate([
@@ -207,7 +207,7 @@ class SuratMasukController extends Controller
                 $headers = array(
                     'Content-Type: application/pdf',
                 );
-                return response()->download(storage_path($file->lokasi_file, $file->surat->namafile, $headers));
+                return response()->download(storage_path($file->lokasi_file), $file->surat->nama, $headers);
             } else {
                 return view('close');
             }
@@ -230,7 +230,7 @@ class SuratMasukController extends Controller
                 $dataFile = $request->file('surat_file');
                 foreach ($dataFile as $key => $value) {
                     $namaFile = Carbon::now()->format('Ymd')."_".time()."_".$suratMasuk->id.rand(10,99).".".$value->getClientOriginalExtension();
-                    $path = "uploads\pdf_file\\" . $namaFile;
+                    $path = "uploads/pdf_file/" . $namaFile;
                     $moveFile = $value->storeAs('pdf_file', $namaFile, 'uploads');
     
                     $suratFile = SuratFile::firstOrCreate([
