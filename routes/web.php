@@ -33,7 +33,7 @@ Route::middleware(['auth'])->group(function () use ($loc) {
     Route::resource('jabatan', $loc . JabatanController::class);
     Route::resource('jabatan/{jabatan}/jabatan-disposisi', $loc . JabatanDisposisiController::class);
     
-    Route::resource('pengguna', $loc . Usercontroller::class);
+    Route::resource('pengguna', $loc . UserController::class);
     
     Route::resource('surat-masuk', $loc . SuratMasukController::class);
     Route::put('/surat-masuk/file/getFile', [$loc . SuratMasukController::class, 'getFiles'])->name('surat-masuk.getFiles');
