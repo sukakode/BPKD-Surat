@@ -11,6 +11,7 @@ class SuratMasukDisposisi extends Component
 {
     public $surat = [];
     public $disposisiAktif = [];
+    public $disposisiDetail = [];
 
     public function mount(Surat $surat)
     {
@@ -49,4 +50,28 @@ class SuratMasukDisposisi extends Component
             $this->disposisiAktif = $disposisiAktif->toArray();
         }
     }
+
+    public function getData($id)
+    {
+        try {
+            $disposisi = Disposisi::findOrFail($id);
+            $this->disposisiDetail[$id] = $disposisi->toArray();
+            if ($disposisi->disposisi_selanjutnya != null) {
+                $explode = explode(',', $disposisi->disposisi_selanjutnya);
+                if (count($explode) > 0) {
+                    foreach ($explode as $key => $value) {
+                        $this->getData($value);
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    public function getTest()
+    {
+        dd($this->disposisiDetail);
+    }
+    
 }

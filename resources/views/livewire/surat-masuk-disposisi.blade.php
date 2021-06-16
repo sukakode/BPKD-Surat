@@ -1,9 +1,35 @@
 <div>
   <div class="row">
+    {{-- <div class="col-12">
+      <h5>Test</h5>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h4 class="card-title w-100">
+            <a class="d-block w-100" data-toggle="collapse" href="#collapseOne">
+              Collapsible Group Item #1
+            </a>
+          </h4>
+        </div>
+        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+            3
+            wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt
+            laborum
+            eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee
+            nulla
+            assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred
+            nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft
+            beer
+            farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+            labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+    </div> --}}
     <div class="col-12">
-      
-    </div>
-    <div class="col-12">
+      <button type="button" class="btn btn-sm btn-info" wire:click="getTest()">Belum Di-Terima</button>                          
+
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -20,16 +46,16 @@
                 <td class="text-center">
                   @switch($item['status_penerima'])
                     @case(0)
-                      <button type="button" class="btn btn-sm btn-info">Belum Di-Terima</button>                          
+                      <button type="button" class="btn btn-sm btn-info" wire:click="getData('{{ $item['id'] }}')">Belum Di-Terima</button>                          
                       @break
                     @case(1)
-                      <button type="button" class="btn btn-sm btn-success">Di-Terima</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">Di-Terima</button>                          
                       @break
                     @case(2)
-                      <button type="button" class="btn btn-sm btn-success">di-Lakukan Disposisi</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">di-Lakukan Disposisi</button>                          
                       @break
                     @case(3)
-                      <button type="button" class="btn btn-sm btn-success">Selesai</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">Selesai</button>                          
                       @break
                     @default
                     <button class="btn btn-sm btn-secondary">Tidak Ada Informasi</button>
