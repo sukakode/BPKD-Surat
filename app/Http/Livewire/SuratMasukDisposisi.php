@@ -59,11 +59,27 @@ class SuratMasukDisposisi extends Component
             if ($disposisi->disposisi_selanjutnya != null) {
                 $explode = explode(',', $disposisi->disposisi_selanjutnya);
                 if (count($explode) > 0) {
-                    foreach ($explode as $key => $value) {
-                        $this->getData($value);
+                    $detail = $this->getDetail($explode);
+                    $this->disposisiDetail[$id]['lanjutan'] = $detail;
+                    foreach ($detail as $key => $value) {
+                        $this->getData($key);
                     }
                 }
             }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    public function getDetail($explode)
+    {
+        try {
+            $lanjutan = [];
+            foreach ($explode as $key => $value) {
+                $detail = Disposisi::findOrFail($value)->toArray();
+                $lanjutan[$value] = $detail; 
+            }
+            return $lanjutan;
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -73,5 +89,16 @@ class SuratMasukDisposisi extends Component
     {
         dd($this->disposisiDetail);
     }
+
+    function myfunction($products, $field, $value)
+    {
+        foreach($products as $key => $product)
+        {
+            if ( $product[$field] === $value )
+            return $key;
+        }
+        return false;
+    }
+
     
 }
