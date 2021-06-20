@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Disposisi;
 use App\Models\Surat;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class SuratMasukDisposisi extends Component
@@ -53,16 +54,50 @@ class SuratMasukDisposisi extends Component
 
     public function getData($id)
     {
+        $array = [];
+        $array2 = [];
+        $array3 = [];
         try {
-            $disposisi = Disposisi::findOrFail($id);
-            $this->disposisiDetail[$id] = $disposisi->toArray();
-            if ($disposisi->disposisi_selanjutnya != null) {
-                $explode = explode(',', $disposisi->disposisi_selanjutnya);
-                if (count($explode) > 0) {
-                    $detail = $this->getDetail($explode);
-                    $this->disposisiDetail[$id]['lanjutan'] = $detail;
-                    foreach ($detail as $key => $value) {
-                        $this->getData($key);
+            $this->disposisiDetail = $this->getDetail($id);
+            if ($this->disposisiDetail['disposisi_selanjutnya'] != null) {
+                $ex = explode(',', $this->disposisiDetail['disposisi_selanjutnya']);
+                if (count($ex) > 0) {
+                    foreach ($ex as $key => $value) {
+                        $detail = $this->getDetail($value);
+                        $array[$value] = $detail;
+                    }
+                    $this->disposisiDetail['lanjutan'] = $array;
+
+                    if (count($this->disposisiDetail['lanjutan']) > 0) {
+                        foreach ($this->disposisiDetail['lanjutan'] as $key2 => $value2) {
+                            if ($value2['disposisi_selanjutnya'] != null) {
+                                $ex2 = explode(',', $value2['disposisi_selanjutnya']);
+                                if (count($ex2) > 0) {
+                                    foreach ($ex2 as $key3 => $value3) {
+                                        $detail2 = $this->getDetail($value3);
+                                        $array2[$value3] = $detail2;
+                                    }
+    
+                                    $this->disposisiDetail['lanjutan'][$value2['id']]['lanjutan'] = $array2;
+                                    
+                                    if (count($this->disposisiDetail['lanjutan'][$value2['id']]['lanjutan']) > 0) {
+                                        foreach ($this->disposisiDetail['lanjutan'][$value2['id']]['lanjutan'] as $key4 => $value4) {
+                                            if ($value4['disposisi_selanjutnya'] != null) {
+                                                $ex3 = explode(',', $value4['disposisi_selanjutnya']);
+                                                if (count($ex3) > 0) {
+                                                    foreach ($ex3 as $key5 => $value5) {
+                                                        $detail3 = $this->getDetail($value5);
+                                                        $array3[$value5] = $detail3;
+                                                    }
+
+                                                    $this->disposisiDetail['lanjutan'][$value2['id']]['lanjutan'][$value4['id']]['lanjutan'] = $array3;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -71,33 +106,44 @@ class SuratMasukDisposisi extends Component
         }
     }
 
-    public function getDetail($explode)
+    public function getDetail($id)
     {
-        try {
-            $lanjutan = [];
-            foreach ($explode as $key => $value) {
-                $detail = Disposisi::findOrFail($value)->toArray();
-                $lanjutan[$value] = $detail; 
-            }
-            return $lanjutan;
-        } catch (\Throwable $th) {
-            dd($th);
-        }
+        $disposisi = Disposisi::findOrFail($id);
+        return $disposisi->toArray();
+    }
+
+    public function setData()
+    {
+        //
     }
 
     public function getTest()
     {
-        dd($this->disposisiDetail);
+        // dd(Hash::make("test"));
+        // dd($this->disposisiAktif);
+        // $this->myfunction($this->disposisiDetail["1"]['lanjutan'], "2", null);
+
+        foreach ($this->disposisiAktif as $key => $value) {
+            if($value['id'] === 8) {
+                dd($key);
+            }
+        }
     }
 
     function myfunction($products, $field, $value)
     {
-        foreach($products as $key => $product)
-        {
-            if ( $product[$field] === $value )
-            return $key;
+        foreach ($products as $key => $value) {
+            // dd($value);
+            $value['lanjutan'] = "TEST";
+            dd($value);
         }
-        return false;
+        dd($products);
+        // foreach($products as $key => $product)
+        // {
+        //     if ( $product[$field] === $value )
+        //     return $key;
+        // }
+        // return false;
     }
 
     
