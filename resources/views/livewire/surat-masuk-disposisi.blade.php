@@ -46,16 +46,16 @@
                 <td class="text-center">
                   @switch($item['status_penerima'])
                     @case(0)
-                      <button type="button" class="btn btn-sm btn-info" wire:click="getData('{{ $item['id'] }}')">Belum Di-Terima</button>                          
+                      <button type="button" class="btn btn-sm btn-info" wire:click="doDetail('{{ $item['id'] }}')">Belum Di-Terima</button>                          
                       @break
                     @case(1)
-                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">Di-Terima</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="doDetail('{{ $item['id'] }}')">Di-Terima</button>                          
                       @break
                     @case(2)
-                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">di-Lakukan Disposisi</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="doDetail('{{ $item['id'] }}')">di-Lakukan Disposisi</button>                          
                       @break
                     @case(3)
-                      <button type="button" class="btn btn-sm btn-success" wire:click="getData('{{ $item['id'] }}')">Selesai</button>                          
+                      <button type="button" class="btn btn-sm btn-success" wire:click="doDetail('{{ $item['id'] }}')">Selesai</button>                          
                       @break
                     @default
                     <button class="btn btn-sm btn-secondary">Tidak Ada Informasi</button>
@@ -84,6 +84,8 @@
     </div>
   </div>
 </div>
+
+@livewire('disposisi-detail')
 
 @push('script')
 <script>

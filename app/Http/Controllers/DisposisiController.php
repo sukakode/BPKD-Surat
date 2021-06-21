@@ -87,7 +87,10 @@ class DisposisiController extends Controller
                 $selanjutnya = $selanjutnya . $disposisiBaru->id . ",";
             }
 
-            
+            if ($disposisi->disposisi_selanjutnya != null) {
+                $selanjutnya = $disposisi->disposisi_selanjutnya . ',' . $selanjutnya;
+            }
+
             $disposisiSelanjutnya = substr($selanjutnya, 0, -1);
 
             $disposisi->update([
